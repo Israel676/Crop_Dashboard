@@ -1,0 +1,60 @@
+CREATE DATABASE humidity_monitor;
+
+USE humidity_monitor;
+
+CREATE TABLE humidity_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    humidity DECIMAL(5, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE soil_acidity_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    acidity DECIMAL(4, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-------------------------------------------------------------------------------------------------------
+DELIMITER //
+CREATE PROCEDURE GetHumidity()
+BEGIN
+    SELECT humidity FROM humidity_data ORDER BY created_at DESC LIMIT 1;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE UpdateHumidity(IN newHumidity DECIMAL(5, 2))
+BEGIN
+    INSERT INTO humidity_data (humidity) VALUES (newHumidity);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE DeleteHumidity()
+BEGIN
+    DELETE FROM humidity_data;
+END //
+DELIMITER ;
+
+------------------------------------------------------------------------------------------------------
+
+DELIMITER //
+CREATE PROCEDURE GetAcidity()
+BEGIN
+    SELECT acidity FROM soil_acidity_data ORDER BY created_at DESC LIMIT 1;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE UpdateAcidity(IN newAcidity DECIMAL(4, 2))
+BEGIN
+    INSERT INTO soil_acidity_data (acidity) VALUES (newAcidity);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE DeleteAcidity()
+BEGIN
+    DELETE FROM soil_acidity_data;
+END //
+DELIMITER ;
